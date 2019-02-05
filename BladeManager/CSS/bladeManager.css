@@ -37,11 +37,12 @@
     border-radius: 5px;
     background-clip: padding-box;
     background-color: #ffffff;
+    white-space: initial;
+    max-width: 100%;
 }
 
     .blade-window.full-blade {
         width: calc(100% - 10px) !important;
-        max-width: 100% !important;
     }
 
 
