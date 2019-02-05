@@ -1,0 +1,252 @@
+﻿<div id="default-page-container">
+    <style>
+        xmp {
+            background-color: #f6f8fa;
+            border-radius: 3px;
+            font-size: 85%;
+            line-height: 1.45;
+            overflow: auto;
+            padding: 5px;
+        }
+    </style>
+    <script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+    <div>
+        <input type="checkbox" id="chkBladeScrolling" />
+        <label for="chkBladeScrolling">Blade Scrolling</label>
+    </div>
+    <h3>Minimal example:</h3>
+    <xmp class="prettyprint">
+$(function(){
+    //This below line is optional. It's used to override the default container element and/or the breadcrumb element.
+    bladeManager.init();
+            
+    bladeManager.addBlade({
+        title: 'Sample title',
+        content:{
+            url: '/path/page.ext'
+        }
+    });
+});
+    </xmp>
+    <br />
+    <h3>Advanced options:</h3>
+    <xmp class="prettyprint">
+$(function(){
+    var targetNode = document.getElementById('container-element-id');
+    var breadcrumbNode = document.getElementById('breadcrumb-element-id');
+
+    bladeManager.init(targetNode, breadcrumbNode);
+            
+    bladeManager.addBlade({
+        name: 'a-unique-name', //Default: auto generated unique name
+        title: 'Sample title',
+        content:{
+            url: '/path/page.ext',
+            type: 'POST|GET', //Default: GET
+            data: {},
+            dataType: null,
+            contentType: null
+        },
+        backColor: 'colorName|random|#XXXXXX', //Default: 'white'
+        headerBack: 'colorName|random|#XXXXXX', //Default: 'white'
+        contentBack: 'colorName|random|#XXXXXX', //Default: 'white'
+
+        oneInstance: true|false, //Default: true
+        canClose: true|false, //Default: true
+        fullWidth: true|false, //Default: false
+        propertiesBlade: true|false, //Default: false
+        addToUrl: true|false, //Default: true
+        canRestore: true|false, //Default: true
+        canRefresh: true|false, //Default: true
+        updateParent: true|false, //Default: true
+        formSuccessCallback: function(blade){ //Default: null
+        }
+
+        variables: { //Default: null
+            a_blade_dynamic_function: function(){
+            },
+            a_blade_dynamic_variable: 'value'
+        }, 
+        toolbar: {
+            buttons:[
+                {
+                    id: 'Some unique button id', //Default: Auto generated unique button id
+                    text: 'Sample button',
+                    icon: 'md-add', //Default: null
+                    classList: 'btn-outline-primary', //Default: null
+                    enabled: true|false, //Default: true
+                    callback: function(e){ //Default: null
+                        alert('Sample button clicked!');
+                    }
+                }
+            ]
+        }
+    });
+});
+    </xmp>
+    <br />
+    <h3>Blade Manager methods:</h3><br />
+    <h4>Resolve blade</h4>
+    <i>Returns a "Blade" reference which can be used with other methods (e.g. bladeManager.setSettings(settings, bladeReference); ) </i>
+    <xmp class="prettyprint">
+//caller: can be an element ID or a reference to any child element of the blade to be resolved.
+//An object of type "Blade" is returned.
+bladeManager.resolveBlade(caller);
+    </xmp>
+    <h4>Remove blade</h4>
+    <i>Completely removes a Blade and its content from the DOM.</i><br />
+    <i><small>A blade with a settings of { canClose: false } won't be removed using the below method. canClose must be set to true first.</small></i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be closed
+//blade: should be a reference to the blade to be closed.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.removeBlade([caller], [blade]);
+    </xmp>
+
+    <h4>Refresh blade</h4>
+    <i>Refreshes the content of the blade.</i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be refreshed
+//blade: should be a reference to the blade to be refreshed.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.refreshBlade([caller], [blade]);
+    </xmp>
+    <h4>Restore blade</h4>
+    <i>Maximises or restores the size of the blade.</i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be restored
+//blade: should be a reference to the blade to be restored.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.restoreBlade([caller], [blade]);
+    </xmp>
+    <h4>Set settings</h4>
+    <i>Sets the settings of a specific blade.</i>
+    <xmp class="prettyprint">
+//A new settings object which replaces or appends the current blade's settings.
+//If the new settings object contains an options which has been already set, the options gets replaced, otherwise it gets appended.
+//blade: should be a reference to the blade which settings to be set.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.setSettings(settings, blade);
+    </xmp>
+    <h4>Replace content</h4>
+    <i>Replaces the content of a specific blade by passing a new "content" object.</i>
+    <xmp class="prettyprint">
+//blade: should be a reference to the blade which content should be replaced.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+//content: can be static HTML, or an object with a 'url' path to load a page using AJAX.
+bladeManager.replaceContent(blade, content);
+    </xmp>
+    <h4>Show blade</h4>
+    <i>Gets a specific balde into view and the blade gets the focus.</i>
+    <xmp class="prettyprint">
+//blade: should be a reference to the blade to be shown.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.showBlade(blade);
+    </xmp>
+    <h4>Show loader</h4>
+    <i>Shows the loader of a specific blade if an action/long running process is called manually.<br />
+    If a form within the blade is submitted, the loader is shown/hidden automatically.</i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be restored
+//blade: should be a reference to the blade where the loader should be shown.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.showLoader([caller], [blade]);
+    </xmp>
+    <h4>Hide loader</h4>
+    <i>Hides the loader of a specific blade.<br />
+    If a form within the blade is submitted, the loader is shown/hidden automatically.</i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be restored
+//blade: should be a reference to the blade where the loader should be hidden.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.hideLoader([caller], [blade]);
+    </xmp>
+    <h4>Get variables</h4>
+    <i>Gets the variables/functions defined for a speific blade.</i>
+    <xmp class="prettyprint">
+//caller: can be a reference to any child element of the blade to be restored
+//blade: should be a reference to the blade which the variables/functions should be returned.
+//Blade references are returned when '.addBlade' method is called.
+//Or you can use bladeManager.Blades[n] to retrieve a reference of a specific blade.
+bladeManager.getVariables([caller], [blade]);
+    </xmp>
+</div>
+<script>
+    bladeManager.setSettings({
+        toolbar: {
+            buttons: [
+                {
+                    text: 'AJAX blade',
+                    callback: function (e) {
+                        bladeManager.addBlade({
+                            title: 'Ajax blade',
+                            content: {
+                                url: '/Ajax/BladeContent.html'
+                            }
+                        });
+                    }
+                },
+                {
+                    text: 'AJAX blade with form',
+                    callback: function (e) {
+                        bladeManager.addBlade({
+                            title: 'Ajax blade with form',
+                            content: {
+                                url: '/Ajax/BladeWithForm.aspx'
+                            }
+                        });
+                    }
+                },
+                {
+                    text: 'Form blade as properties',
+                    callback: function (e) {
+                        bladeManager.addBlade({
+                            title: 'Ajax blade with form',
+                            content: {
+                                url: '/Ajax/BladeWithForm.aspx?1=1'
+                            },
+                            propertiesBlade: true
+                        });
+                    }
+                },
+                {
+                    text: 'AJAX blade with toolbar',
+                    callback: function (e) {
+                        bladeManager.addBlade({
+                            title: 'Ajax blade with toolbar',
+                            content: {
+                                url: '/Ajax/BladeWithToolbar.html'
+                            }
+                        });
+                    }
+                },
+                {
+                    text: 'AJAX blade with dynamic content',
+                    callback: function (e) {
+                        bladeManager.addBlade({
+                            title: 'Ajax blade with dynamic content',
+                            content: {
+                                url: '/Ajax/DynamicBlade.aspx'
+                            }
+                        });
+                    }
+                }
+            ]
+        }
+    }, bladeManager.resolveBlade('default-page-container'));
+
+    $('#chkBladeScrolling').on('change', function () {
+        if ($(this).prop('checked'))
+            bladeManager.scrollToBlades = true;
+        else
+            bladeManager.scrollToBlades = false;
+    });
+</script>

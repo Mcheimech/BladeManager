@@ -1,0 +1,197 @@
+﻿body, html, #wrapper, .content-page, .content, .container-fluid {
+    height: 100%;
+}
+
+.container-fluid {
+    display: flex;
+    ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    flex-direction: column;
+}
+
+.content-body {
+    ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    overflow: auto;
+    padding: 15px;
+}
+
+.blades-container {
+    min-height: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    display: flex;
+}
+
+.blade-window {
+    height: 100%;
+    position: relative;
+    padding: 0;
+    margin: 0 10px 0 0;
+    -ms-flex: 0 0 100% !important;
+    flex: 0 0 100% !important;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
+    border-radius: 5px;
+    background-clip: padding-box;
+    background-color: #ffffff;
+}
+
+    .blade-window.full-blade {
+        width: calc(100% - 10px) !important;
+        max-width: 100% !important;
+    }
+
+
+    .blade-window.properties-blade {
+        margin: 0 !important;
+        position: fixed !important;
+        right: 0 !important;
+        top: 113px;
+        background-color: white;
+        box-shadow: 1px 15px 10px 3px !important;
+        z-index: 999999;
+        border-radius: 0px !important;
+        height: calc(100% - 113px);
+    }
+
+        .blade-window.properties-blade > .blade-header > .blade-buttons > .restore-blade {
+            display: none;
+        }
+
+    .blade-window > .blade-wrapper {
+        display: flex;
+        flex-flow: column;
+        height: 100%;
+    }
+
+        .blade-window > .blade-wrapper > .blade-header {
+            padding: 10px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            border-top-right-radius: 5px;
+            border-top-left-radius: 5px;
+            -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+        }
+
+            .blade-window > .blade-wrapper > .blade-header > .blade-title {
+                float: left;
+                font-weight: bold;
+                font-size: 15px;
+            }
+
+            .blade-window > .blade-wrapper > .blade-header > .blade-buttons {
+                float: right;
+            }
+
+                .blade-window > .blade-wrapper > .blade-header > .blade-buttons a {
+                    margin: 0 5px;
+                }
+
+                    .blade-window > .blade-wrapper > .blade-header > .blade-buttons a > i {
+                        display: inline-block;
+                        width: 10px;
+                        height: 10px;
+                        background-size: cover;
+                        background-color: #007bff;
+                    }
+
+                .blade-window > .blade-wrapper > .blade-header > .blade-buttons > .refresh-blade > i {
+                    -webkit-mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m256.467853,1.000407c68.139499,0.122359 130.005792,26.973446 175.68164,70.623686l36.723086,-36.723083c15.546775,-15.545745 42.127441,-4.535504 42.127441,17.450019l0,137.842916c0,13.629132 -11.048287,24.677418 -24.67742,24.677418l-137.842929,0c-21.985525,0 -32.995767,-26.580664 -17.450021,-42.127437l42.928429,-42.928425c-31.735163,-29.714696 -72.799418,-46.174534 -116.426013,-46.550864c-95.006012,-0.820524 -175.089382,76.065056 -174.26783,174.224627c0.779395,93.117152 76.271737,171.253055 172.735773,171.253055c42.287844,0 82.254983,-15.092298 113.751597,-42.728949c4.876875,-4.278447 12.242057,-4.018306 16.830001,0.568609l40.781494,40.78149c5.009516,5.009516 4.761714,13.176713 -0.495605,17.925059c-45.216232,40.842155 -105.137121,65.711851 -170.867487,65.711851c-140.831982,0 -254.998982,-114.16699 -255.00001,-254.997929c-0.001028,-140.670536 114.797303,-255.253957 255.467853,-255.002042z'></path></svg>");
+                    mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m256.467853,1.000407c68.139499,0.122359 130.005792,26.973446 175.68164,70.623686l36.723086,-36.723083c15.546775,-15.545745 42.127441,-4.535504 42.127441,17.450019l0,137.842916c0,13.629132 -11.048287,24.677418 -24.67742,24.677418l-137.842929,0c-21.985525,0 -32.995767,-26.580664 -17.450021,-42.127437l42.928429,-42.928425c-31.735163,-29.714696 -72.799418,-46.174534 -116.426013,-46.550864c-95.006012,-0.820524 -175.089382,76.065056 -174.26783,174.224627c0.779395,93.117152 76.271737,171.253055 172.735773,171.253055c42.287844,0 82.254983,-15.092298 113.751597,-42.728949c4.876875,-4.278447 12.242057,-4.018306 16.830001,0.568609l40.781494,40.78149c5.009516,5.009516 4.761714,13.176713 -0.495605,17.925059c-45.216232,40.842155 -105.137121,65.711851 -170.867487,65.711851c-140.831982,0 -254.998982,-114.16699 -255.00001,-254.997929c-0.001028,-140.670536 114.797303,-255.253957 255.467853,-255.002042z'></path></svg>");
+                }
+
+                .blade-window > .blade-wrapper > .blade-header > .blade-buttons > .close-blade > i {
+                    -webkit-mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m354.736812,256.000002l145.840651,-144.987785c17.896704,-17.792046 17.896704,-46.638921 0,-64.445455l-32.412272,-32.222727c-17.896704,-17.792046 -46.913266,-17.792046 -64.824544,0l-145.840651,144.987785l-145.840651,-144.987785c-17.896704,-17.792046 -46.913266,-17.792046 -64.824544,0l-32.412272,32.222727c-17.896704,17.792046 -17.896704,46.638921 0,64.445455l145.840651,144.987785l-145.840651,144.987785c-17.896704,17.792046 -17.896704,46.638921 0,64.445455l32.412272,32.222727c17.896704,17.792046 46.92784,17.792046 64.824544,0l145.840651,-144.987785l145.840651,144.987785c17.896704,17.792046 46.92784,17.792046 64.824544,0l32.412272,-32.222727c17.896704,-17.792046 17.896704,-46.638921 0,-64.445455l-145.840651,-144.987785z'></path></svg>");
+                    mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m354.736812,256.000002l145.840651,-144.987785c17.896704,-17.792046 17.896704,-46.638921 0,-64.445455l-32.412272,-32.222727c-17.896704,-17.792046 -46.913266,-17.792046 -64.824544,0l-145.840651,144.987785l-145.840651,-144.987785c-17.896704,-17.792046 -46.913266,-17.792046 -64.824544,0l-32.412272,32.222727c-17.896704,17.792046 -17.896704,46.638921 0,64.445455l145.840651,144.987785l-145.840651,144.987785c-17.896704,17.792046 -17.896704,46.638921 0,64.445455l32.412272,32.222727c17.896704,17.792046 46.92784,17.792046 64.824544,0l145.840651,-144.987785l145.840651,144.987785c17.896704,17.792046 46.92784,17.792046 64.824544,0l32.412272,-32.222727c17.896704,-17.792046 17.896704,-46.638921 0,-64.445455l-145.840651,-144.987785z'></path></svg>");
+                }
+
+                .blade-window > .blade-wrapper > .blade-header > .blade-buttons > .restore-blade > i {
+                    -webkit-mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m1,169.482145l0,-141.160716c0,-15.140625 12.180803,-27.321429 27.321428,-27.321429l141.160711,0c7.513393,0 13.660714,6.147322 13.660714,13.660714l0,45.535715c0,7.513393 -6.147321,13.660714 -13.660714,13.660714l-95.624998,0l0,95.625001c0,7.513393 -6.147321,13.660714 -13.660714,13.660714l-45.535713,0c-7.513393,0 -13.660714,-6.147322 -13.660714,-13.660714zm327.857135,-154.821431l0,45.535715c0,7.513393 6.147321,13.660714 13.660714,13.660714l95.624998,0l0,95.625001c0,7.513393 6.147321,13.660714 13.660714,13.660714l45.535713,0c7.513393,0 13.660714,-6.147322 13.660714,-13.660714l0,-141.160716c0,-15.140625 -12.180803,-27.321429 -27.321428,-27.321429l-141.160711,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714zm168.482139,314.196433l-45.535713,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,95.625001l-95.624998,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,45.535715c0,7.513393 6.147321,13.660714 13.660714,13.660714l141.160711,0c15.140625,0 27.321428,-12.180804 27.321428,-27.321429l0,-141.160716c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714zm-314.196421,168.482145l0,-45.535715c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714l-95.624998,0l0,-95.625001c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714l-45.535713,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,141.160716c0,15.140625 12.180803,27.321429 27.321428,27.321429l141.160711,0c7.513393,0 13.660714,-6.147322 13.660714,-13.660714z'></path></svg>");
+                    mask: url("data:image/svg+xml;utf8,<svg aria-hidden='true' shape-rendering='optimizeQuality' role='img' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><path fill='currentColor' d='m1,169.482145l0,-141.160716c0,-15.140625 12.180803,-27.321429 27.321428,-27.321429l141.160711,0c7.513393,0 13.660714,6.147322 13.660714,13.660714l0,45.535715c0,7.513393 -6.147321,13.660714 -13.660714,13.660714l-95.624998,0l0,95.625001c0,7.513393 -6.147321,13.660714 -13.660714,13.660714l-45.535713,0c-7.513393,0 -13.660714,-6.147322 -13.660714,-13.660714zm327.857135,-154.821431l0,45.535715c0,7.513393 6.147321,13.660714 13.660714,13.660714l95.624998,0l0,95.625001c0,7.513393 6.147321,13.660714 13.660714,13.660714l45.535713,0c7.513393,0 13.660714,-6.147322 13.660714,-13.660714l0,-141.160716c0,-15.140625 -12.180803,-27.321429 -27.321428,-27.321429l-141.160711,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714zm168.482139,314.196433l-45.535713,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,95.625001l-95.624998,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,45.535715c0,7.513393 6.147321,13.660714 13.660714,13.660714l141.160711,0c15.140625,0 27.321428,-12.180804 27.321428,-27.321429l0,-141.160716c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714zm-314.196421,168.482145l0,-45.535715c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714l-95.624998,0l0,-95.625001c0,-7.513393 -6.147321,-13.660714 -13.660714,-13.660714l-45.535713,0c-7.513393,0 -13.660714,6.147322 -13.660714,13.660714l0,141.160716c0,15.140625 12.180803,27.321429 27.321428,27.321429l141.160711,0c7.513393,0 13.660714,-6.147322 13.660714,-13.660714z'></path></svg>");
+                }
+
+        .blade-window > .blade-wrapper > .blade-toolbar {
+            margin: 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            display: none;
+            -ms-flex: 0 1 auto;
+            flex: 0 1 auto;
+        }
+
+            .blade-window > .blade-wrapper > .blade-toolbar > .btn-group {
+                display: inherit;
+                white-space: initial;
+            }
+
+        .blade-window > .blade-wrapper > .blade-content {
+            overflow: auto;
+            padding: 10px;
+            position: relative;
+        }
+
+@media (min-width: 768px) {
+    .blade-window > .blade-wrapper > .blade-content {
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        display: flex;
+        flex-flow: column;
+    }
+}
+
+.blade-window > .blade-wrapper > .blade-content table.dataTable {
+    width: 100%;
+}
+
+.blade-window > .blade-wrapper > .blade-loader {
+    display: none;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255,255,255,0.3);
+    z-index: 1002;
+}
+
+    .blade-window > .blade-wrapper > .blade-loader > .blade-anim {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 1003;
+        width: 100px;
+        height: 100px;
+        border: 15px solid #f3f3f3;
+        border-top: 15px solid #3498db;
+        border-radius: 50%;
+        -webkit-animation: spin 2s linear infinite; /* Safari */
+        animation: spin 2s linear infinite;
+    }
+
+.blade-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 1em 0;
+    height: 100%;
+}
+
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

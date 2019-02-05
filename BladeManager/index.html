@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>BladeManager Demo</title>
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="/CSS/bladeManager.css" rel="stylesheet" />
+    <link href="/CSS/style.css" rel="stylesheet" />
+    <script src="/Scripts/jquery-3.3.1.min.js"></script>
+    <script src="/Scripts/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>BladeManager Demo</h1>
+        <div class="breadcrumb">
+            <div class="breadcrumb-item">Blade Manager Demo</div>
+            <div class="breadcrumb-item active">Test blade</div>
+        </div>
+
+        <div class="row content-body">
+            <div class="blades-container">
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(function () {
+            bladeManager.addBlade({
+                title: 'Default blade',
+                canClose: false,
+                addToUrl: false,
+                content: {
+                    url: '/Ajax/Index.html'
+                }
+            });
+        });
+    </script>
+    <script src="/Scripts/blade-manager.js"></script>
+</body>
+</html>

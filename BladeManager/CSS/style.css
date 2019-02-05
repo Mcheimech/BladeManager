@@ -1,0 +1,16 @@
+﻿body{
+    background-color: #ccc;
+}
+
+.breadcrumb {
+    margin-bottom: 0;
+    flex: 1 0 auto;
+    position: relative;
+}
+
+.content-body {
+}
+
+.tools{
+    float: right;
+}

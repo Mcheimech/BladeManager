@@ -1,0 +1,2 @@
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="DynamicBlade.aspx.cs" Inherits="BladeManager.Demo.Ajax.DynamicBlade" %>
+<h4>Time now is: <%=DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")%></h4>
