@@ -60,7 +60,11 @@ $(function(){
         canRefresh: true|false, //Default: true
         updateParent: true|false, //Default: true
         formSuccessCallback: function(blade){ //Default: null
-        }
+        },
+        onOpen: function(blade) { //Default: null
+        },
+        onClose: function(blade) { //Default: null
+        },
 
         variables: { //Default: null
             a_blade_dynamic_function: function(){
@@ -75,7 +79,7 @@ $(function(){
                     icon: 'md-add', //Default: null
                     classList: 'btn-outline-primary', //Default: null
                     enabled: true|false, //Default: true
-                    callback: function(e){ //Default: null
+                    callback: function(blade, bladeForm){ //Default: null
                         alert('Sample button clicked!');
                     }
                 }
@@ -85,7 +89,32 @@ $(function(){
 });
     </xmp>
     <br />
-    <h3>Blade Manager methods:</h3><br />
+    <h3>Events</h3>
+    <h4>onOpen</h4>
+    <i>This event is raised once a blade was fully initialized, and added to the DOM.<br />Please note that this event is raised even if the content wasn't loaded yet</i>
+    <xmp class="prettyprint">
+bladeManager.addBlade({
+    //...
+    onOpen: function(blade){
+    //...
+    }
+    //...
+});
+    </xmp>
+    <br />
+    <h4>onClose</h4>
+    <i>This event is raised once a blade is fully closed, and removed from the DOM.</i>
+    <xmp class="prettyprint">
+bladeManager.addBlade({
+    //...
+    onClose: function(blade){
+    //...
+    }
+    //...
+});
+    </xmp>
+    <br />
+    <h3>Methods:</h3><br />
     <h4>Resolve blade</h4>
     <i>Returns a "Blade" reference which can be used with other methods (e.g. bladeManager.setSettings(settings, bladeReference); ) </i>
     <xmp class="prettyprint">

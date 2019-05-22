@@ -11,7 +11,7 @@ interface ToolbarButton {
     icon?: string;
     classList?: string;
     enabled?: boolean;
-    callback: Function;
+    callback?: Function;
 }
 
 interface BladeToolbar {
@@ -46,5 +46,8 @@ interface BladeSettings {
     variables?: object;
     toolbar?: BladeToolbar;
 
-    formSuccessCallback?: Function
+    formSuccessCallback?: Function;
+    onOpen?: Function;
+    onClose?: Function;
+
 }

@@ -64,7 +64,9 @@ var bladeManager = bladeManager || (function () {
         formSuccessCallback: null,
         content: null,
         variables: {},
-        toolbar: null, 
+        toolbar: null,
+        onClose: null,
+        onOpen: null
     }
 
     var getRandomColor = function () {
@@ -154,7 +156,7 @@ var bladeManager = bladeManager || (function () {
                 submitActor = this;
             });
 
-            if (typeof e.originalEvent.explicitOriginalTarget != 'undefined') {
+            if (e.originalEvent !== undefined && e.originalEvent.explicitOriginalTarget !== undefined) {
                 submitActor = e.originalEvent.explicitOriginalTarget;
             } else if (typeof document.activeElement.value != 'undefined') {
                 submitActor = document.activeElement;
@@ -171,8 +173,14 @@ var bladeManager = bladeManager || (function () {
                 $.validator.unobtrusive.parse(this);
                 $(this).validate().settings.ignore = ".ignore";
 
-                if (!$(this).valid())
+                if (!$(this).valid()) {
+                    var input = $('.input-validation-error:first');
+
+                    if (input)
+                        input.focus();
+
                     return;
+                }
             }
 
             if (this.getAttribute('data-target') != undefined && this.getAttribute('data-target') === '_blade') {
@@ -223,6 +231,7 @@ var bladeManager = bladeManager || (function () {
                 },
                 error: function (jqXHR, status, error) {
                     if (jqXHR.status === 403) {
+                        alert("Your session has expired!\r\n This page will refresh to revalidate your token.");
                         document.location.href = '/Account/RefreshToken';
                         return;
                     } else if (jqXHR.status === 306) return;
@@ -244,11 +253,16 @@ var bladeManager = bladeManager || (function () {
                 statusCode: {
                     306: function (jqXHR) {
                         var currentBlade = getBlade(objForm);
-                        if (currentBlade != undefined
-                            && currentBlade.settings.parent
-                            && currentBlade.settings.updateParent
-                            && document.body.contains(currentBlade.settings.parent.element))
-                            bladeManager.refreshBlade(null, currentBlade.settings.parent);
+                        var currentParent;
+
+                        if (currentBlade != undefined && currentBlade.settings.parent) {
+
+                            currentParent = currentBlade.settings.parent;
+
+                            if (currentBlade.settings.updateParent && document.body.contains(currentBlade.settings.parent.element)) {
+                                bladeManager.refreshBlade(null, currentBlade.settings.parent);
+                            }
+                        }
 
                         _removeBlade(currentBlade, true);
                         var bladeSettings = jqXHR.getResponseHeader('blade-settings');
@@ -259,6 +273,7 @@ var bladeManager = bladeManager || (function () {
                             if (bladeSettings.content === 'jqXHR.responseText')
                                 bladeSettings.content = jqXHR.responseText;
 
+                            bladeSettings.parent = currentParent;
                             bladeManager.addBlade(bladeSettings);
                         }
                     }
@@ -277,6 +292,7 @@ var bladeManager = bladeManager || (function () {
             var canRestore = this.getAttribute('data-can-restore') != undefined ? this.getAttribute('data-can-restore').toBool() : true;
             var canClose = this.getAttribute('data-can-close') != undefined ? this.getAttribute('data-can-close').toBool() : true;
             var canRefresh = this.getAttribute('data-can-refresh') != undefined ? this.getAttribute('data-can-refresh').toBool() : true;
+            var updateParent = this.getAttribute('data-update-parent') != undefined ? this.getAttribute('data-update-parent').toBool() : true;
 
             bladeManager.addBlade({
                 content: {
@@ -287,7 +303,8 @@ var bladeManager = bladeManager || (function () {
                 fullWidth: fullWidth,
                 canClose: canClose,
                 canRestore: canRestore,
-                canRefresh: canRefresh
+                canRefresh: canRefresh,
+                updateParent: updateParent
             });
         });
 
@@ -597,6 +614,11 @@ var bladeManager = bladeManager || (function () {
 
         setAsSortable();
         updateBreadCrumb();
+
+        if (blade.settings.onClose && typeof blade.settings.onClose === 'function')
+            blade.settings.onClose.call(this, blade);
+        else
+            return false;
     }
 
     var manupilateContent = function (contentElement) {
@@ -607,6 +629,9 @@ var bladeManager = bladeManager || (function () {
             });
         }
 
+        contentElement.find('.close-blade').click(function () {
+            bladeManager.removeBlade(this);
+        });
         if ($.fn.datepicker != undefined) {
             contentElement.find('input[type="date"]')
                 .attr('type', 'text')
@@ -746,10 +771,13 @@ var bladeManager = bladeManager || (function () {
     }
 
     String.prototype.toJSON = function () {
-        if (this.toString() === '')
-            return JSON.parse('[]');
-        else
+
+        var retValue = JSON.parse('[]');
+        try {
             return JSON.parse(this);
+        } catch (e) {
+            return retValue;
+        }
     }
 
     return {
@@ -802,23 +830,28 @@ var bladeManager = bladeManager || (function () {
             if (haltCreation) return;
 
             try {
-                settings.parent = null;
-                var originalArgs = arguments.callee.caller ? arguments.callee.caller.arguments : [];
-                for (var i = 0; i < originalArgs.length; i++) {
-                    var args = originalArgs[i];
-                    if (typeof args === 'object' && ((args.nodeName || args.target) || (args.settings && args.element))) {
-                        if (args.nodeName)
-                            parentBlade = getBlade(args);
-                        else if (args.target)
-                            parentBlade = getBlade(args.target);
-                        else if (args.settings) {
-                            settings.parent = args;
+                if (!settings.parent || !settings.parent.settings) {
+                    settings.parent = null;
+                    var originalArgs = arguments.callee.caller ? arguments.callee.caller.arguments : [];
+                    for (var i = 0; i < originalArgs.length; i++) {
+                        var args = originalArgs[i];
+                        if (args === null)
+                            continue;
+
+                        if (typeof args === 'object' && ((args.nodeName || args.target) || (args.settings && args.element))) {
+                            if (args.nodeName)
+                                parentBlade = getBlade(args);
+                            else if (args.target)
+                                parentBlade = getBlade(args.target);
+                            else if (args.settings) {
+                                settings.parent = args;
+                                break;
+                            }
+
+                            settings.parent = parentBlade;
+
                             break;
                         }
-
-                        settings.parent = parentBlade;
-
-                        break;
                     }
                 }
             } catch (ex) {
@@ -863,6 +896,11 @@ var bladeManager = bladeManager || (function () {
             setAsSortable();
             index++;
             updateBreadCrumb();
+
+            if (objBlade.settings.onOpen && typeof objBlade.settings.onOpen === 'function')
+                objBlade.settings.onOpen.call(this, objBlade);
+            else
+                return false;
 
             return objBlade;
         },
@@ -947,6 +985,8 @@ var bladeManager = bladeManager || (function () {
             settings.addToUrl = settings.addToUrl == undefined ? defaults.addToUrl : settings.addToUrl;
             settings.updateParent = settings.updateParent == undefined ? defaults.updateParent : settings.updateParent;
             settings.formSuccessCallback = settings.formSuccessCallback == undefined ? defaults.formSuccessCallback : settings.formSuccessCallback;
+            settings.onOpen = settings.onOpen;
+            settings.onClose = settings.onClose;
             settings.name = settings.name || `blade${index}`;
 
             $(child).find('.blade-title').text(settings.title);
@@ -970,6 +1010,7 @@ var bladeManager = bladeManager || (function () {
 
             if (settings.fullWidth) {
                 $(child).addClass('full-blade');
+                $(child).removeClass('col-md-6');
             } else if (settings.propertiesBlade) {
                 $(child).addClass('col-md-3');
                 $(child).addClass('properties-blade');
@@ -993,7 +1034,17 @@ var bladeManager = bladeManager || (function () {
                 settings.toolbar.buttons.forEach(function (item) {
                     var objButton = document.createElement('button');
                     objButton.type = 'button';
-                    objButton.onclick = item.callback || 'return false;';
+                    objButton.onclick = function () {
+                        var blade = bladeManager.resolveBlade(this);
+                        var bladeForm = $(blade.element).find('form');
+
+                        if (!item.callback) {
+                            return false;
+                        } else {
+                            item.callback.call(this, blade, bladeForm);
+                        }
+                    }
+                    objButton.title = item.text;
                     objButton.classList = item.classList || 'btn btn-outline-dark shadow-none rounded-0 waves-effect waves-light';
 
                     if (item.enabled != undefined && item.enabled == false)
@@ -1079,6 +1130,7 @@ var bladeManager = bladeManager || (function () {
                     },
                     error: function (jqXHR, errorThrown) {
                         if (jqXHR.status == 403) {
+                            alert("Your session has expired!\r\n This page will refresh to revalidate your token.");
                             document.location.href = '/Account/RefreshToken';
                             return;
                         } else if (jqXHR.status === 306) return;
