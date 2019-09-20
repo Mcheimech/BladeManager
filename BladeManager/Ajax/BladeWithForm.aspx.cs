@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using BladeManager;
 
 namespace BladeManager.Demo.Ajax
 {
@@ -14,7 +12,6 @@ namespace BladeManager.Demo.Ajax
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            //var postData = Newtonsoft.Json.JsonConvert.SerializeObject(Request.Form.ToDictionary());
             var postData = new System.Net.Http.FormUrlEncodedContent(Request.Form.ToDictionary());
             int seq = 1;
             if (!string.IsNullOrEmpty(Request.QueryString["seq"]))
@@ -26,7 +23,6 @@ namespace BladeManager.Demo.Ajax
                 {
                     url = "/Ajax/BladeWithForm.aspx?seq=" + seq.ToString(),
                     type = "Post",
-                    //contentType = "application/json",
                     contentType = "application/x-www-form-urlencoded; charset=UTF-8",
                     data = postData.ReadAsStringAsync().Result
                 })
